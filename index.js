@@ -3,7 +3,7 @@ import http from "http";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Meeting from "./models/meeting.js";
+import Meeting from "./meeting.js";
 import { Server } from "socket.io";
 
 dotenv.config();
