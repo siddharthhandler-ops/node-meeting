@@ -1,12 +1,15 @@
 import { Server } from "socket.io";
 import http from "http";
+import express from "express";
 
-const server = http.createServer();
+const app = express();
+const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: ["http://localhost:3000", "https://create-meeting.vercel.app"],
+    methods: ["GET", "POST"],
   },
-  path: "/socket.io",
 });
 
 io.on("connection", (socket) => {
@@ -14,8 +17,7 @@ io.on("connection", (socket) => {
 
   socket.on("check-role", (roomId) => {
     const room = io.sockets.adapter.rooms.get(roomId);
-    const isHost = !room;
-    socket.emit("role", isHost ? "host" : "guest");
+    socket.emit("role", room ? "guest" : "host");
   });
 
   socket.on("request-join", ({ roomId, name }) => {
