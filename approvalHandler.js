@@ -23,14 +23,7 @@ export function approvalHandler(socket, io) {
       return;
     }
 
-    waitingUsers[roomId].push({ userId: socket.id, name });
-
-    io.to(roomHost[roomId]).emit("user-waiting", {
-      userId: socket.id,
-      name,
-    });
-
-    socket.emit("waiting-for-host");
+    socket.emit("allowed-to-join");
   });
 
   socket.on("approve-user", ({ roomId, userId }) => {
