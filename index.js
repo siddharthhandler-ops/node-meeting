@@ -57,6 +57,11 @@ io.on("connection", (socket) => {
     io.to(to).emit("offer", { from, sdp });
   });
 
+  socket.on("chat-message", (data) => {
+    if (!data?.roomId) return;
+    io.to(data.roomId).emit("chat-message", data);
+  });
+
   socket.on("answer", ({ to, from, sdp }) => {
     io.to(to).emit("answer", { from, sdp });
   });
